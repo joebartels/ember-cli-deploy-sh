@@ -1,26 +1,52 @@
 # Ember-cli-deploy-sh
 
-This README outlines the details of collaborating on this Ember addon.
+### Configuration Options
+**config/deploy.js**
+```
+var ENV = {
+  ...
+  sh: {
+    hooks: {}
+  }
+  ...
+};
+```
 
-## Installation
+#### hooks
+```
+{
+  hooks: {
+    willDeploy: [ {task} ]
+  }
+}
+```
 
-* `git clone` this repository
-* `npm install`
-* `bower install`
 
-## Running
+##### tasks
+Tasks are just shell commands defined in a JS Object. 
+**`command`**
+* the shell command to execute
 
-* `ember server`
-* Visit your app at http://localhost:4200.
+**`options`**
+* the arguments to include with the shell command
 
-## Running Tests
 
-* `npm test` (Runs `ember try:testall` to test your addon against multiple Ember versions)
-* `ember test`
-* `ember test --server`
+This is an example of a task that makes a curl request:
+```
+require('dotenv').load();
+var querystring = require('querystring');
 
-## Building
+{
+  command: 'curl',
+  options: {
+    request: 'POST',
+    form: ['file=@dist-deploy/index.html', 'version=' + process.env.VERSION,
+    verbose: true,
+    url: buildURL('https://api.com/new-release', { pass: process.env.PASSWORD })
+  }
+}
 
-* `ember build`
-
-For more information on using ember-cli, visit [http://www.ember-cli.com/](http://www.ember-cli.com/).
+function buildURL(url, options) {
+  return url + '?' + querystring.stringify(options);
+}
+```
