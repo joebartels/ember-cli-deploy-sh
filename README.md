@@ -1,29 +1,25 @@
 # Ember-cli-deploy-sh
 
-### Configuration Options
-**config/deploy.js**
-```
-var ENV = {
-  ...
-  sh: {
-    hooks: {}
-  }
-  ...
-};
-```
+## Configuration Options
 
-#### hooks
+### hooks
+Supports all will* and did* hooks:<br>
+`willDeploy`, `willBuild`, `willPrepare`, `willUpload`, `willActivate`<br>
+`didBuild`, `didPrepare`, `didUpload`, `didActivate`, `didDeploy`, `didFail`
 ```
 {
-  hooks: {
-    willDeploy: [ {task} ]
+  sh: {
+    hooks: {
+      willDeploy: [ {task} ]
+    }
   }
 }
 ```
 
 
-##### tasks
-Tasks are just shell commands defined in a JS Object. 
+### task
+A task is a shell commands defined in a JS Object. 
+
 **`command`**
 * the shell command to execute
 
@@ -37,12 +33,20 @@ require('dotenv').load();
 var querystring = require('querystring');
 
 {
-  command: 'curl',
-  options: {
-    request: 'POST',
-    form: ['file=@dist-deploy/index.html', 'version=' + process.env.VERSION,
-    verbose: true,
-    url: buildURL('https://api.com/new-release', { pass: process.env.PASSWORD })
+  sh: {
+    hooks: {
+      didDeploy: [
+        {
+          command: 'curl',
+          options: {
+            request: 'POST',
+            form: ['file=@dist-deploy/index.html', 'version=' + process.env.VERSION,
+            verbose: true,
+            url: buildURL('https://api.com/new-release', { pass: process.env.PASSWORD })
+          }
+        }      
+      ]
+    }
   }
 }
 
