@@ -6,6 +6,8 @@
 Supports all will* and did* hooks:<br>
 `willDeploy`, `willBuild`, `willPrepare`, `willUpload`, `willActivate`<br>
 `didBuild`, `didPrepare`, `didUpload`, `didActivate`, `didDeploy`, `didFail`
+
+Each hook takes an array of tasks
 ```
 {
   sh: {
