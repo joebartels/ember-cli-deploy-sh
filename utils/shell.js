@@ -8,14 +8,16 @@ var exec        = require('child_process').exec;
 module.exports = {
   runCommand: runCommand,
 
-  buildCommand: buildCommand
+  buildCommand: buildCommand,
+
+  formatArgs: formatArgs
 };
 
 /**
   @method runCommand
 
   @param {String} command The command to be run
-  @param {Object} ui The instance that handles stdin/stdout
+  @param {Object} ui The interface that handles stdin/stdout
 
 */
 function runCommand(command, ui) {
@@ -44,11 +46,11 @@ function runCommand(command, ui) {
   ```
     {
       command: 'curl',
-      includeOptions: [
-        { form: ['file=@dist/index.html', 'version=new'] },
-        { request: 'POST' },
-        { url: 'api.com/new-release' }
-      ]
+      options: {
+        form: ['file=@dist/index.html', 'version=new'],
+        request: 'POST',
+        url: 'api.com/new-release'
+      }
     }
   ```
   into a String that serves as a command.

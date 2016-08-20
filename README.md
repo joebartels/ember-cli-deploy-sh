@@ -27,7 +27,7 @@ A task is a shell commands defined in a JS Object.
 
 **`options`**
 * the arguments to include with the shell command
-
+* are passed directly into [dargs](https://github.com/sindresorhus/dargs#usage) during formatting
 
 This is an example of a task that makes a curl request:
 ```
