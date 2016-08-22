@@ -44,7 +44,8 @@
     "ember-try": "~0.0.8",
     "glob": "7.0.5",
     "mocha": "3.0.0",
-    "shell-escape": "0.2.0"
+    "shell-escape": "0.2.0",
+    "strip-ansi": "3.0.1"
   },
   "keywords": [
     "ember-addon",
