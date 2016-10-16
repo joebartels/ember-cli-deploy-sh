@@ -25,7 +25,7 @@ function executeTasks(name, tasks) {
   };
 
   tasks.forEach(function(task, idx) {
-    promiseChain = promiseChain.then(executeTask(name, task, output, idx));
+    promiseChain = promiseChain.then(executeTask(name, task, output));
   });
 
   return promiseChain;
@@ -39,12 +39,12 @@ function executeTasks(name, tasks) {
   @param {Object} output { log, ui } for logging.
   @return {Promise}
 */
-function executeTask(name, task, output, idx) {
+function executeTask(name, task, output) {
   return function() {
     var validatedTask = validateTask(task);
 
     if (!validatedTask) {
-      return Promise.reject(name + ': invalid tasks[' + idx + '].');
+      return Promise.reject(name + ': invalid task ' + taskIndex + ' found.');
     }
 
     output.log(name + ': executing shell task');
@@ -64,10 +64,6 @@ function executeTask(name, task, output, idx) {
 **/
 function validateTask(task) {
   if (typeof task.command !== 'string') {
-    return;
-  }
-
-  if (task.options === null) {
     return;
   }
 
