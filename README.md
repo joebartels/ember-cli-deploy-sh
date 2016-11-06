@@ -8,14 +8,14 @@ Supports all will* and did* hooks:<br>
 `didBuild`, `didPrepare`, `didUpload`, `didActivate`, `didDeploy`, `didFail`
 
 Each hook takes an array of tasks
-```
-{
-  sh: {
-    hooks: {
-      willDeploy: [ {task} ]
-    }
+```js
+config/deploy.js
+
+ENV.sh = {
+  hooks: {
+    willDeploy: [ {task} ]
   }
-}
+};
 ```
 
 
@@ -30,27 +30,27 @@ A task is a shell commands defined in a JS Object.
 * are passed directly into [dargs](https://github.com/sindresorhus/dargs#usage) during formatting
 
 This is an example of a task that makes a curl request:
-```
-require('dotenv').load();
+```js
+// config/deploy.js
+
+require('dotenv').load(); // ember-cli-deploy v0.6.0x has native support for .env
 var querystring = require('querystring');
 
-{
-  sh: {
-    hooks: {
-      didDeploy: [
-        {
-          command: 'curl',
-          options: {
-            request: 'POST',
-            form: ['file=@dist-deploy/index.html', 'version=' + process.env.VERSION,
-            verbose: true,
-            url: buildURL('https://api.com/new-release', { pass: process.env.PASSWORD })
-          }
-        }      
-      ]
-    }
+Env.sh = {
+  hooks: {
+    didDeploy: [
+      {
+        command: 'curl',
+        options: {
+          request: 'POST',
+          form: ['file=@dist-deploy/index.html', 'version=' + process.env.VERSION,
+          verbose: true,
+          url: buildURL('https://api.com/new-release', { pass: process.env.PASSWORD })
+        }
+      }      
+    ]
   }
-}
+};
 
 function buildURL(url, options) {
   return url + '?' + querystring.stringify(options);
