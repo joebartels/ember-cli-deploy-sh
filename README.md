@@ -1,4 +1,7 @@
+[![Build Status](https://travis-ci.org/joebartels/ember-cli-deploy-sh.svg?branch=master)](https://travis-ci.org/joebartels/ember-cli-deploy-sh)
+
 # Ember-cli-deploy-sh
+> An ember-cli-deploy plugin to run shell commands during deploy.
 
 ## Configuration Options
 
