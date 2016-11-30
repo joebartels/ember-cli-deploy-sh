@@ -81,8 +81,9 @@ describe('utils/shell.js', function() {
     it('resolves a promise on successfull completion', function() {
       let ui = new MockUI();
       let command = 'sleep .25 && exit 0';
+      let log = ui.writeLine.bind(ui);
 
-      return subject.runCommand(command, ui).then(result => {
+      return subject.runCommand(command, log).then(result => {
         let expect = command;
         let actual = ui.escaped();
 
@@ -98,8 +99,9 @@ describe('utils/shell.js', function() {
     it('Rejects a promise on non-zero exit code', function() {
       let ui = new MockUI();
       let command = 'sleep .25 && exit 1';
+      let log = ui.writeLine.bind(ui);
 
-      return subject.runCommand(command, ui).then(result => {
+      return subject.runCommand(command, log).then(result => {
         assert.ok(false, "Command resolved a promise");
       })
       .catch(err => {

@@ -1,4 +1,4 @@
-var MockUI    = require('ember-cli/tests/helpers/mock-ui');
+var MockUI    = require('console-ui/mock');
 var stripAnsi = require('strip-ansi');
 
 module.exports = MockUI;

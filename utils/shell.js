@@ -17,27 +17,28 @@ module.exports = {
   @method runCommand
 
   @param {String} command The command to be run
-  @param {Object} ui The interface that handles stdin/stdout
+  @param {Object} log The interface that handles stdin/stdout
 
 */
-function runCommand(command, ui) {
+function runCommand(command, log) {
   return new Promise(function(resolve, reject) {
       if (!command) {
         return resolve('No command found');
       }
 
-      ui.writeLine(command);
+      log(command);
 
       var task = exec(command, {
         cwd: process.cwd()
-      }, function(err) {
+      }, function(err, stdout, stderr) {
+        log(stdout);
+
         if (err !== null) {
+          log(stderr, { color: 'red' });
           return reject(err);
         }
         return resolve(command);
       });
-
-      task.stdout.pipe(ui.outputStream, { end: false });
     });
 }
 
