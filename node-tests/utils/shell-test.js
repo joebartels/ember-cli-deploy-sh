@@ -83,7 +83,7 @@ describe('utils/shell.js', function() {
       let command = 'sleep .25 && exit 0';
       let log = ui.writeLine.bind(ui);
 
-      return subject.runCommand(command, log).then(result => {
+      return subject.runCommand(command, undefined, log).then(result => {
         let expect = command;
         let actual = ui.escaped();
 
@@ -101,11 +101,30 @@ describe('utils/shell.js', function() {
       let command = 'sleep .25 && exit 1';
       let log = ui.writeLine.bind(ui);
 
-      return subject.runCommand(command, log).then(result => {
+      return subject.runCommand(command, undefined, log).then(result => {
         assert.ok(false, "Command resolved a promise");
       })
       .catch(err => {
         assert.ok(true, "Command error'ed out :)");
+      }).finally(function() {
+        let expect = command;
+        let actual = ui.escaped()
+
+        assert.equal(actual, expect, "Runs the correct command");
+      })
+    });
+
+   it('Resolves a promise on non-zero exit code when fail === false', function() {
+      let ui = new MockUI();
+      let command = 'sleep .25 && exit 1';
+      let log = ui.writeLine.bind(ui);
+
+      return subject.runCommand(command, false, log).then(result => {
+        assert.ok(true, "Command resolved a promise");
+      })
+      .catch(err => {
+        console.log(err);
+        assert.ok(false, "Command error'ed out :(");
       }).finally(function() {
         let expect = command;
         let actual = ui.escaped()
