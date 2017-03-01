@@ -46,8 +46,11 @@ function runCommand(command, fail, log) {
         return resolve(command);
       });
 
-      task.stdout.pipe(process.stdout);
-      process.stdin.pipe(task.stdin);
+      process.stdin.pipe(task.stdin, { end: false });
+
+      task.on('exit', function() {
+        process.stdin.end();
+      });
     });
 }
 

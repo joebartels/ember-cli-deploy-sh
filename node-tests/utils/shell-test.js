@@ -111,7 +111,7 @@ describe('utils/shell.js', function() {
         let actual = ui.escaped()
 
         assert.equal(actual, expect, "Runs the correct command");
-      })
+      });
     });
 
    it('Resolves a promise on non-zero exit code when fail === false', function() {
