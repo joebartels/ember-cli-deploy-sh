@@ -20,7 +20,7 @@ module.exports = {
   @param {Object} log The interface that handles stdin/stdout
 
 */
-function runCommand(command, log) {
+function runCommand(command, fail, log) {
   return new Promise(function(resolve, reject) {
       if (!command) {
         return resolve('No command found');
@@ -33,10 +33,16 @@ function runCommand(command, log) {
       }, function(err, stdout, stderr) {
         log(stdout);
 
-        if (err !== null) {
+        if (err) {
           log(stderr, { color: 'red' });
-          return reject(err);
         }
+      });
+
+      task.on('exit', function(code) {
+        if (code !== 0 && fail) {
+          return reject(code);
+        }
+
         return resolve(command);
       });
     });
