@@ -6,12 +6,24 @@ var dargs       = require('dargs');
 var exec        = require('child_process').exec;
 
 module.exports = {
+  runFunction: runFunction,
+
   runCommand: runCommand,
 
   buildCommand: buildCommand,
 
   formatArgs: formatArgs
 };
+
+/**
+  Runs a function...
+
+  @method runFunction
+  @param {Function} fn
+*/
+function runFunction(fn) {
+  return fn.call(null);
+}
 
 /**
   @method runCommand
@@ -40,17 +52,14 @@ function runCommand(command, fail, log) {
 
       task.on('exit', function(code) {
         if (code !== 0 && fail) {
-          return reject(code);
+          reject(code);
         }
 
-        return resolve(command);
+        resolve(command);
+        process.stdin.end();
       });
 
       process.stdin.pipe(task.stdin, { end: false });
-
-      task.on('exit', function() {
-        process.stdin.end();
-      });
     });
 }
 
