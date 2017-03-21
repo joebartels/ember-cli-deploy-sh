@@ -31,6 +31,14 @@ describe('lib/shell-task.js', function() {
       assert.equal(subject.validateTask(task), task, 'returns task.');
     });
 
+    it('task can be a function', function() {
+      let task = function() {
+        return 'hey';
+      }
+
+      assert.equal(subject.validateTask(task), task, 'returns function');
+    });
+
     it('task.command is required', function() {
       let task = {
         options: {}
