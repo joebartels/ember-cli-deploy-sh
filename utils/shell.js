@@ -1,7 +1,7 @@
 'use strict';
 
 var shellEscape = require('shell-escape');
-var Promise     = require('ember-cli/lib/ext/promise');
+var Promise     = require('rsvp').Promise;
 var dargs       = require('dargs');
 var exec        = require('child_process').exec;
 
